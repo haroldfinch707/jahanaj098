@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Penetration Tester | Bug Hunter</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=Inter:wght@300;400;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-green: #00ff41;
+            --secondary-green: #00cc33;
+            --dark-bg: #0a0a0a;
+            --card-bg: #111111;
+            --text-primary: #ffffff;
+            --text-secondary: #888888;
+            --accent-red: #ff0040;
+            --gradient: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .terminal-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at center, rgba(0,255,65,0.1) 0%, transparent 50%),
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(0,255,65,0.03) 2px,
+                    rgba(0,255,65,0.03) 4px
+                );
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            padding: 2rem 0;
+            text-align: center;
+            position: relative;
+        }
+        
+        .glitch {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 3.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            position: relative;
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+            animation: flicker 3s infinite alternate;
+        }
+        
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .glitch::before {
+            animation: glitch1 0.5s infinite;
+            color: var(--accent-red);
+            z-index: -1;
+        }
+        
+        .glitch::after {
+            animation: glitch2 0.5s infinite;
+            color: #00ffff;
+            z-index: -2;
+        }
+        
+        @keyframes glitch1 {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+        }
+        
+        @keyframes glitch2 {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(2px, 2px); }
+            40% { transform: translate(2px, -2px); }
+            60% { transform: translate(-2px, 2px); }
+            80% { transform: translate(-2px, -2px); }
+        }
+        
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        .subtitle {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .typing-effect::after {
+            content: '|';
+            animation: blink 1s infinite;
+            color: var(--primary-green);
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .nav-item {
+            background: transparent;
+            border: 1px solid var(--primary-green);
+            color: var(--primary-green);
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-green);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+        
+        .nav-item:hover::before {
+            left: 0;
+        }
+        
+        .nav-item:hover {
+            color: var(--dark-bg);
+            box-shadow: 0 0 20px rgba(0,255,65,0.5);
+        }
+        
+        .section {
+            margin-bottom: 6rem;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+        
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.4s; }
+        .section:nth-child(4) { animation-delay: 0.6s; }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .section-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2rem;
+            color: var(--primary-green);
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 2px;
+            background: var(--primary-green);
+            box-shadow: 0 0 10px var(--primary-green);
+        }
+        
+        .about {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .about p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .skill-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(0,255,65,0.3);
+            padding: 2rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary-green);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .skill-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .skill-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-green);
+            box-shadow: 0 10px 30px rgba(0,255,65,0.2);
+        }
+        
+        .skill-icon {
+            font-size: 2.5rem;
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+        }
+        
+        .skill-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        
+        .skill-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .project-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(0,255,65,0.3);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .project-card:hover {
+            transform: scale(1.02);
+            border-color: var(--primary-green);
+            box-shadow: 0 15px 40px rgba(0,255,65,0.2);
+        }
+        
+        .project-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(0,255,65,0.2);
+        }
+        
+        .project-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.4rem;
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+        }
+        
+        .project-type {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .project-body {
+            padding: 1.5rem;
+        }
+        
+        .project-desc {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .tag {
+            background: rgba(0,255,65,0.1);
+            color: var(--primary-green);
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-family: 'JetBrains Mono', monospace;
+            border: 1px solid rgba(0,255,65,0.3);
+        }
+        
+        .contact {
+            text-align: center;
+            background: var(--card-bg);
+            padding: 4rem 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0,255,65,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .contact::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(0,255,65,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,0,64,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .contact-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .contact h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .contact p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+        
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .contact-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-green);
+            text-decoration: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            padding: 1rem 2rem;
+            border: 1px solid var(--primary-green);
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .contact-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-green);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+        
+        .contact-link:hover::before {
+            left: 0;
+        }
+        
+        .contact-link:hover {
+            color: var(--dark-bg);
+            box-shadow: 0 0 20px rgba(0,255,65,0.5);
+        }
+        
+        .matrix-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.1;
+        }
+        
+        @media (max-width: 768px) {
+            .glitch {
+                font-size: 2.5rem;
+            }
+            
+            .nav {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+            
+            .skills-grid,
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-links {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal-bg"></div>
+    <canvas class="matrix-rain" id="matrix"></canvas>
+    
+    <div class="container">
+        <header>
+            <h1 class="glitch" data-text="ELITE HACKER">ELITE HACKER</h1>
+            <p class="subtitle typing-effect">Penetration Tester & Bug Hunter</p>
+            
+            <nav class="nav">
+                <button class="nav-item" onclick="scrollToSection('about')">About</button>
+                <button class="nav-item" onclick="scrollToSection('skills')">Skills</button>
+                <button class="nav-item" onclick="scrollToSection('projects')">Projects</button>
+                <button class="nav-item" onclick="scrollToSection('contact')">Contact</button>
+            </nav>
+        </header>
+        
+        <section id="about" class="section">
+            <h2 class="section-title">./about_me</h2>
+            <div class="about">
+                <p>Elite penetration tester with extensive experience in breaking systems before the bad guys do. Specialized in finding critical vulnerabilities that others miss.</p>
+                
+                <p>My mission is to secure the digital world, one exploit at a time. I think like an attacker but fight for the defenders.</p>
+                
+                <p>When I'm not breaking into systems (legally), I'm sharing knowledge with the security community and hunting for the next critical bug.</p>
+            </div>
+        </section>
+        
+        <section id="skills" class="section">
+            <h2 class="section-title">./expertise</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="skill-icon">🛡️</div>
+                    <h3 class="skill-title">Web App Security</h3>
+                    <p class="skill-desc">Expert in OWASP Top 10, SQL injection, XSS, CSRF, and advanced web application vulnerabilities.</p>
+                </div>
+                
+                <div class="skill-card">
+                    <div class="skill-icon">🔓</div>
+                    <h3 class="skill-title">Network Penetration</h3>
+                    <p class="skill-desc">Advanced network reconnaissance, privilege escalation, lateral movement, and post-exploitation techniques.</p>
+                </div>
+                
+                <div class="skill-card">
+                    <div class="skill-icon">📱</div>
+                    <h3 class="skill-title">Mobile Security</h3>
+                    <p class="skill-desc">iOS and Android application security testing, reverse engineering, and mobile malware analysis.</p>
+                </div>
+                
+                <div class="skill-card">
+                    <div class="skill-icon">☁️</div>
+                    <h3 class="skill-title">Cloud Security</h3>
+                    <p class="skill-desc">AWS, Azure, GCP security assessments, container security, and cloud misconfigurations.</p>
+                </div>
+                
+                <div class="skill-card">
+                    <div class="skill-icon">🏭</div>
+                    <h3 class="skill-title">Red Team Operations</h3>
+                    <p class="skill-desc">Full-scale adversary simulation, social engineering, and advanced persistent threat scenarios.</p>
+                </div>
+                
+                <div class="skill-card">
+                    <div class="skill-icon">🐛</div>
+                    <h3 class="skill-title">Bug Bounty</h3>
+                    <p class="skill-desc">Active bug bounty hunter with critical findings across major platforms and Fortune 500 companies.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="projects" class="section">
+            <h2 class="section-title">./achievements</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3 class="project-title">Operation Phoenix</h3>
+                        <p class="project-type">Red Team Assessment</p>
+                    </div>
+                    <div class="project-body">
+                        <p class="project-desc">Full-scale adversary simulation against Fortune 500 company. Achieved domain admin within 72 hours through sophisticated phishing and lateral movement techniques.</p>
+                        <div class="project-tags">
+                            <span class="tag">Active Directory</span>
+                            <span class="tag">Social Engineering</span>
+                            <span class="tag">PowerShell</span>
+                            <span class="tag">Cobalt Strike</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3 class="project-title">Critical RCE Discovery</h3>
+                        <p class="project-type">Bug Bounty</p>
+                    </div>
+                    <div class="project-body">
+                        <p class="project-desc">Discovered critical remote code execution vulnerability in major SaaS platform affecting 10M+ users. Earned $50,000 bounty and Hall of Fame recognition.</p>
+                        <div class="project-tags">
+                            <span class="tag">RCE</span>
+                            <span class="tag">Deserialization</span>
+                            <span class="tag">$50K Bounty</span>
+                            <span class="tag">CVE-2024-XXXX</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3 class="project-title">Mobile Banking Breach</h3>
+                        <p class="project-type">Mobile Security Assessment</p>
+                    </div>
+                    <div class="project-body">
+                        <p class="project-desc">Comprehensive security assessment of mobile banking application revealing certificate pinning bypass and transaction manipulation vulnerabilities.</p>
+                        <div class="project-tags">
+                            <span class="tag">iOS</span>
+                            <span class="tag">Android</span>
+                            <span class="tag">Frida</span>
+                            <span class="tag">SSL Pinning</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3 class="project-title">Cloud Infrastructure Takeover</h3>
+                        <p class="project-type">Cloud Security Assessment</p>
+                    </div>
+                    <div class="project-body">
+                        <p class="project-desc">Identified misconfigured IAM policies leading to complete AWS account takeover. Demonstrated data exfiltration from production S3 buckets.</p>
+                        <div class="project-tags">
+                            <span class="tag">AWS</span>
+                            <span class="tag">IAM</span>
+                            <span class="tag">S3</span>
+                            <span class="tag">Privilege Escalation</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="contact" class="section">
+            <div class="contact">
+                <div class="contact-content">
+                    <h2 class="section-title">./contact</h2>
+                    <p>Ready to secure your infrastructure? Let's connect and discuss how I can help fortify your digital assets.</p>
+                    
+                    <div class="contact-links">
+                        <a href="mailto:hack@example.com" class="contact-link">
+                            <span>📧</span>
+                            Email
+                        </a>
+                        <a href="https://linkedin.com/in/elitehacker" class="contact-link">
+                            <span>💼</span>
+                            LinkedIn
+                        </a>
+                        <a href="https://twitter.com/elitehacker" class="contact-link">
+                            <span>🐦</span>
+                            Twitter
+                        </a>
+                        <a href="https://github.com/elitehacker" class="contact-link">
+                            <span>💻</span>
+                            GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <script>
+        // Matrix rain effect
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const matrix = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%+-/~{[|`]}";
+        const matrixArray = matrix.split("");
+        
+        const fontSize = 10;
+        const columns = canvas.width / fontSize;
+        
+        const drops = [];
+        for(let x = 0; x < columns; x++) {
+            drops[x] = 1;
+        }
+        
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.04)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#00ff41';
+            ctx.font = fontSize + 'px JetBrains Mono';
+            
+            for(let i = 0; i < drops.length; i++) {
+                const text = matrixArray[Math.floor(Math.random() * matrixArray.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                
+                if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+        
+        setInterval(drawMatrix, 35);
+        
+        // Smooth scrolling
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+        
+        // Typing effect
+        const typingElement = document.querySelector('.typing-effect');
+        const texts = [
+            'Penetration Tester & Bug Hunter',
+            'Red Team Specialist',
+            'Security Researcher',
+            'Ethical Hacker'
+        ];
+        let textIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        
+        function typeEffect() {
+            const currentText = texts[textIndex];
+            
+            if (isDeleting) {
+                typingElement.textContent = currentText.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingElement.textContent = currentText.substring(0, charIndex + 1);
+                charIndex++;
+            }
+            
+            if (!isDeleting && charIndex === currentText.length) {
+                setTimeout(() => isDeleting = true, 2000);
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                textIndex = (textIndex + 1) % texts.length;
+            }
+            
+            setTimeout(typeEffect, isDeleting ? 100 : 200);
+        }
+        
+        setTimeout(typeEffect, 1000);
+        
+        // Resize canvas on window resize
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+        
+        // Add scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
