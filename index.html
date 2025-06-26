@@ -1069,6 +1069,13 @@ if (contactForm) {
                 formStatus.textContent = 'Message sent successfully!';
                 formStatus.classList.add('success');
                 contactForm.reset(); // Clear the form
+
+                // NEW CODE: Clear the success message after 3 seconds
+                setTimeout(() => {
+                    formStatus.textContent = ''; // Clear text
+                    formStatus.className = 'form-status'; // Reset classes
+                }, 3000); // 3000 milliseconds = 3 seconds
+            }
             } else {
                 const errorData = await response.json();
                 formStatus.textContent = `Failed to send message: ${errorData.message || 'Unknown error'}`;
