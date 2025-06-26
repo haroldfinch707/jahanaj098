@@ -64,7 +64,6 @@ body {
 
 /* Cursor spotlight effect */
 .cursor-spotlight {
-    display: none !important;
     position: fixed;
     width: 800px;
     height: 800px;
