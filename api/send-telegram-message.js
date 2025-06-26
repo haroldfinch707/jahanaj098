@@ -2,29 +2,43 @@
 const { VERCEL_URL } = process.env; 
 
 export default async function handler(req, res) {
-    // Only allow POST requests for the contact form
     if (req.method !== 'POST') {
         return res.status(405).json({ message: 'Method Not Allowed' });
     }
 
     const { name, email, message } = req.body;
 
-    // --- NEW: Destructure Client-Side Data from req.body ---
     const {
         screenResolution,
         viewportDimensions,
         currentPageURL,
         timeZone,
-        browserLanguage
+        browserLanguage,
+        deviceMemory,
+        hardwareConcurrency,
+        platform,
+        languages,
+        colorDepth,
+        pixelDepth,
+        cookieEnabled,
+        javaEnabled,
+        onlineStatus,
+        screenOrientation,
+        batteryLevel,
+        localStorageSupport,
+        sessionStorageSupport,
+        indexedDbSupport,
+        plugins,
+        canvasFingerprint,
+        webglFingerprint,
+        timezoneOffset,
+        performanceTiming
     } = req.body;
-    // --- END NEW ---
 
-    // Basic validation for required fields
     if (!name || !email || !message) {
         return res.status(400).json({ message: 'Name, email, and message are required.' });
     }
 
-    // IMPORTANT: Get these from Vercel Environment Variables, NOT hardcoded here!
     const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
     const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
@@ -33,7 +47,6 @@ export default async function handler(req, res) {
         return res.status(500).json({ message: 'Server configuration error: Telegram API credentials missing.' });
     }
 
-    // --- Extract ALL Possible Request Data from Headers (Existing) ---
     const userIp = req.headers['x-forwarded-for'] ? req.headers['x-forwarded-for'].split(',')[0].trim() : (req.connection?.remoteAddress || 'N/A');
     const userAgent = req.headers['user-agent'] || 'N/A';
     const referer = req.headers['referer'] || 'N/A';
@@ -53,7 +66,6 @@ export default async function handler(req, res) {
     const secFetchSite = req.headers['sec-fetch-site'] || 'N/A';
     const secFetchMode = req.headers['sec-fetch-mode'] || 'N/A';
     const secFetchDest = req.headers['sec-fetch-dest'] || 'N/A';
-    // --- END Header Extraction ---
 
     const text = `
 *--- New Contact Form Submission ---*
@@ -61,9 +73,10 @@ export default async function handler(req, res) {
 *Name:* ${name}
 *Email:* ${email}
 *Message:*
-\`\`\`
+\
+\\`\`\`
 ${message}
-\`\`\`
+\\`\`\`
 
 *--- Client-Side Browser Details ---*
 *Screen Resolution:* ${screenResolution}
@@ -71,6 +84,25 @@ ${message}
 *Current Page URL:* ${currentPageURL}
 *Time Zone:* ${timeZone}
 *Browser Language:* ${browserLanguage}
+*Platform:* ${platform}
+*Languages:* ${languages}
+*Device Memory:* ${deviceMemory} GB
+*CPU Cores:* ${hardwareConcurrency}
+*Color Depth:* ${colorDepth}
+*Pixel Depth:* ${pixelDepth}
+*Cookies Enabled:* ${cookieEnabled}
+*Java Enabled:* ${javaEnabled}
+*Online:* ${onlineStatus}
+*Screen Orientation:* ${screenOrientation}
+*Battery Level:* ${batteryLevel}
+*LocalStorage Supported:* ${localStorageSupport}
+*SessionStorage Supported:* ${sessionStorageSupport}
+*IndexedDB Supported:* ${indexedDbSupport}
+*Plugins:* ${plugins}
+*Canvas Fingerprint:* ${canvasFingerprint}
+*WebGL Fingerprint:* ${webglFingerprint}
+*Timezone Offset:* ${timezoneOffset}
+*Performance Timing:* ${JSON.stringify(performanceTiming)}
 
 *--- Technical Details (HTTP Headers) ---*
 *IP Address:* ${userIp}
@@ -107,7 +139,7 @@ ${message}
             body: JSON.stringify({
                 chat_id: TELEGRAM_CHAT_ID,
                 text: text,
-                parse_mode: 'Markdown', // Use Markdown for bold text etc.
+                parse_mode: 'Markdown'
             }),
         });
 
