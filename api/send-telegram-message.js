@@ -1,11 +1,15 @@
+// api/send-telegram-message.js
 const { VERCEL_URL } = process.env; 
 
 export default async function handler(req, res) {
+    // Only allow POST requests for the contact form
     if (req.method !== 'POST') {
         return res.status(405).json({ message: 'Method Not Allowed' });
     }
 
     const { name, email, message } = req.body;
+
+    // --- NEW: Destructure Client-Side Data from req.body ---
     const {
         screenResolution,
         viewportDimensions,
@@ -13,11 +17,14 @@ export default async function handler(req, res) {
         timeZone,
         browserLanguage
     } = req.body;
+    // --- END NEW ---
 
+    // Basic validation for required fields
     if (!name || !email || !message) {
         return res.status(400).json({ message: 'Name, email, and message are required.' });
     }
 
+    // IMPORTANT: Get these from Vercel Environment Variables, NOT hardcoded here!
     const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
     const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
@@ -26,6 +33,7 @@ export default async function handler(req, res) {
         return res.status(500).json({ message: 'Server configuration error: Telegram API credentials missing.' });
     }
 
+    // --- Extract ALL Possible Request Data from Headers (Existing) ---
     const userIp = req.headers['x-forwarded-for'] ? req.headers['x-forwarded-for'].split(',')[0].trim() : (req.connection?.remoteAddress || 'N/A');
     const userAgent = req.headers['user-agent'] || 'N/A';
     const referer = req.headers['referer'] || 'N/A';
@@ -45,16 +53,17 @@ export default async function handler(req, res) {
     const secFetchSite = req.headers['sec-fetch-site'] || 'N/A';
     const secFetchMode = req.headers['sec-fetch-mode'] || 'N/A';
     const secFetchDest = req.headers['sec-fetch-dest'] || 'N/A';
+    // --- END Header Extraction ---
 
-    const text = 
+    const text = `
 *--- New Contact Form Submission ---*
 
 *Name:* ${name}
 *Email:* ${email}
 *Message:*
-\\\
+\`\`\`
 ${message}
-\\\
+\`\`\`
 
 *--- Client-Side Browser Details ---*
 *Screen Resolution:* ${screenResolution}
@@ -85,9 +94,9 @@ ${message}
 *Fetch Site:* ${secFetchSite}
 *Fetch Mode:* ${secFetchMode}
 *Fetch Destination:* ${secFetchDest}
-.trim();
+`.trim();
 
-    const telegramApiUrl = https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage;
+    const telegramApiUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
 
     try {
         const telegramResponse = await fetch(telegramApiUrl, {
@@ -98,7 +107,7 @@ ${message}
             body: JSON.stringify({
                 chat_id: TELEGRAM_CHAT_ID,
                 text: text,
-                parse_mode: 'Markdown', 
+                parse_mode: 'Markdown', // Use Markdown for bold text etc.
             }),
         });
 
