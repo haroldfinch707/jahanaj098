@@ -6,9 +6,9 @@ const sections = document.querySelectorAll('.section');
 const navLinks = document.querySelectorAll('.nav__link');
 
 // For Contact Form
-const contactForm = document.getElementById('contactForm'); // This is kept
-const formStatus = document.getElementById('formStatus');   // This is kept
-const submitButton = document.getElementById('submitButton'); // This is kept
+const contactForm = document.getElementById('contactForm');
+const formStatus = document.getElementById('formStatus');
+const submitButton = document.getElementById('submitButton');
 // Removed: openContactFormPrompt and contactFormContainer as they are no longer needed
 
 // For "Hacking Thing" trigger
@@ -217,12 +217,20 @@ if (contactForm) {
         e.preventDefault(); // Prevent default form submission (page reload)
         console.log('Default prevented.'); // DEBUG: Confirm preventDefault worked
 
+        const formData = new FormData(contactForm);
+        const data = Object.fromEntries(formData.entries());
+
+        // --- NEW: Add Client-Side Data ---
+        data.screenResolution = `${window.screen.width}x${window.screen.height}`;
+        data.viewportDimensions = `${window.innerWidth}x${window.innerHeight}`;
+        data.currentPageURL = window.location.href;
+        data.timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        data.browserLanguage = navigator.language;
+        // --- END NEW ---
+
         submitButton.disabled = true;
         formStatus.textContent = 'Sending message...';
         formStatus.className = 'form-status'; // Reset classes for styling
-
-        const formData = new FormData(contactForm);
-        const data = Object.fromEntries(formData.entries());
 
         try {
             // This is the endpoint for your Vercel Serverless Function
