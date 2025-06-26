@@ -1,6 +1,4 @@
 // api/send-telegram-message.js
-// VERCEL_URL is an environment variable provided by Vercel during deployment,
-// not used directly here but often available for serverless functions.
 const { VERCEL_URL } = process.env; 
 
 export default async function handler(req, res) {
@@ -10,6 +8,16 @@ export default async function handler(req, res) {
     }
 
     const { name, email, message } = req.body;
+
+    // --- NEW: Destructure Client-Side Data from req.body ---
+    const {
+        screenResolution,
+        viewportDimensions,
+        currentPageURL,
+        timeZone,
+        browserLanguage
+    } = req.body;
+    // --- END NEW ---
 
     // Basic validation for required fields
     if (!name || !email || !message) {
@@ -25,43 +33,27 @@ export default async function handler(req, res) {
         return res.status(500).json({ message: 'Server configuration error: Telegram API credentials missing.' });
     }
 
-    // --- Extract ALL Possible Request Data from Headers ---
-    // IP Address: x-forwarded-for is reliable for client IP behind proxies like Vercel
+    // --- Extract ALL Possible Request Data from Headers (Existing) ---
     const userIp = req.headers['x-forwarded-for'] ? req.headers['x-forwarded-for'].split(',')[0].trim() : (req.connection?.remoteAddress || 'N/A');
-    // User-Agent: Browser and OS info
     const userAgent = req.headers['user-agent'] || 'N/A';
-    // Referer: URL of the page that linked to this request
     const referer = req.headers['referer'] || 'N/A';
-    // Origin: Scheme, host, and port of the resource that initiated the request
     const userOrigin = req.headers['origin'] || 'N/A';
-    // Host: The domain name of the server being requested
     const host = req.headers['host'] || 'N/A';
-    // Accept-Language: User's preferred language settings
     const acceptLanguage = req.headers['accept-language'] || 'N/A';
-    // Accept-Encoding: Content encoding (e.g., gzip, deflate)
     const acceptEncoding = req.headers['accept-encoding'] || 'N/A';
-    // Connection: Connection type (e.g., keep-alive)
     const connection = req.headers['connection'] || 'N/A';
-    // Content-Type: Type of content being sent in the request body (should be application/json for this form)
     const contentType = req.headers['content-type'] || 'N/A';
-    // Do Not Track: User's DNT preference
     const dnt = req.headers['dnt'] || 'N/A';
-    // Upgrade-Insecure-Requests: Browser's request to upgrade to HTTPS
     const upgradeInsecureRequests = req.headers['upgrade-insecure-requests'] || 'N/A';
 
-    // Newer Client Hints headers (may not be present in all browsers/requests)
-    const secChUa = req.headers['sec-ch-ua'] || 'N/A';           // Browser brand and version
-    const secChUaMobile = req.headers['sec-ch-ua-mobile'] || 'N/A'; // Is mobile device
-    const secChUaPlatform = req.headers['sec-ch-ua-platform'] || 'N/A'; // OS platform
+    const secChUa = req.headers['sec-ch-ua'] || 'N/A';
+    const secChUaMobile = req.headers['sec-ch-ua-mobile'] || 'N/A';
+    const secChUaPlatform = req.headers['sec-ch-ua-platform'] || 'N/A';
 
-    // Fetch Metadata headers (provide context about how the request was made)
-    const secFetchSite = req.headers['sec-fetch-site'] || 'N/A';     // Was it same-origin, cross-site etc.
-    const secFetchMode = req.headers['sec-fetch-mode'] || 'N/A';     // e.g., cors, navigate
-    const secFetchDest = req.headers['sec-fetch-dest'] || 'N/A';     // e.g., document, empty, image
-
-    // Optional: Log all headers for deeper debugging if needed (remove in production)
-    // console.log("All Request Headers:", req.headers);
-    // --- END Extraction ---
+    const secFetchSite = req.headers['sec-fetch-site'] || 'N/A';
+    const secFetchMode = req.headers['sec-fetch-mode'] || 'N/A';
+    const secFetchDest = req.headers['sec-fetch-dest'] || 'N/A';
+    // --- END Header Extraction ---
 
     const text = `
 *--- New Contact Form Submission ---*
@@ -73,13 +65,20 @@ export default async function handler(req, res) {
 ${message}
 \`\`\`
 
-*--- Technical Details ---*
+*--- Client-Side Browser Details ---*
+*Screen Resolution:* ${screenResolution}
+*Viewport Dimensions:* ${viewportDimensions}
+*Current Page URL:* ${currentPageURL}
+*Time Zone:* ${timeZone}
+*Browser Language:* ${browserLanguage}
+
+*--- Technical Details (HTTP Headers) ---*
 *IP Address:* ${userIp}
 *User-Agent:* ${userAgent}
 *Referer:* ${referer}
 *Origin:* ${userOrigin}
 *Host:* ${host}
-*Preferred Language:* ${acceptLanguage}
+*Preferred Language (Header):* ${acceptLanguage}
 *Encoding:* ${acceptEncoding}
 *Connection:* ${connection}
 *Content-Type:* ${contentType}
@@ -95,7 +94,7 @@ ${message}
 *Fetch Site:* ${secFetchSite}
 *Fetch Mode:* ${secFetchMode}
 *Fetch Destination:* ${secFetchDest}
-`.trim(); // .trim() removes leading/trailing whitespace
+`.trim();
 
     const telegramApiUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
 
