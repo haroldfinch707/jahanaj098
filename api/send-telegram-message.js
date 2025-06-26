@@ -1,5 +1,5 @@
 // api/send-telegram-message.js
-const { VERCEL_URL } = process.env;
+const { VERCEL_URL } = process.env; // VERCEL_URL is not used here but is often available
 
 export default async function handler(req, res) {
     // Only allow POST requests
@@ -23,12 +23,22 @@ export default async function handler(req, res) {
         return res.status(500).json({ message: 'Server configuration error.' });
     }
 
+    // --- NEW CODE: Extract Implicit Data ---
+    // x-forwarded-for is reliable for getting client IP behind proxies like Vercel
+    const userIp = req.headers['x-forwarded-for'] ? req.headers['x-forwarded-for'].split(',')[0].trim() : (req.connection?.remoteAddress || 'N/A');
+    const userAgent = req.headers['user-agent'] || 'N/A';
+    // --- END NEW CODE ---
+
     const text = `
 *New Contact Form Submission*
 *Name:* ${name}
 *Email:* ${email}
 *Message:*
 ${message}
+
+*--- User Details ---*
+*IP Address:* ${userIp}
+*User-Agent:* ${userAgent}
 `.trim(); // .trim() removes leading/trailing whitespace
 
     const telegramApiUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
