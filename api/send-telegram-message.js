@@ -1,4 +1,3 @@
-// api/send-telegram-message.js
 const { VERCEL_URL } = process.env; 
 
 export default async function handler(req, res) {
@@ -7,32 +6,12 @@ export default async function handler(req, res) {
     }
 
     const { name, email, message } = req.body;
-
     const {
         screenResolution,
         viewportDimensions,
         currentPageURL,
         timeZone,
-        browserLanguage,
-        deviceMemory,
-        hardwareConcurrency,
-        platform,
-        languages,
-        colorDepth,
-        pixelDepth,
-        cookieEnabled,
-        javaEnabled,
-        onlineStatus,
-        screenOrientation,
-        batteryLevel,
-        localStorageSupport,
-        sessionStorageSupport,
-        indexedDbSupport,
-        plugins,
-        canvasFingerprint,
-        webglFingerprint,
-        timezoneOffset,
-        performanceTiming
+        browserLanguage
     } = req.body;
 
     if (!name || !email || !message) {
@@ -67,16 +46,15 @@ export default async function handler(req, res) {
     const secFetchMode = req.headers['sec-fetch-mode'] || 'N/A';
     const secFetchDest = req.headers['sec-fetch-dest'] || 'N/A';
 
-    const text = `
+    const text = 
 *--- New Contact Form Submission ---*
 
 *Name:* ${name}
 *Email:* ${email}
 *Message:*
-\
-\\`\`\`
+\\\
 ${message}
-\\`\`\`
+\\\
 
 *--- Client-Side Browser Details ---*
 *Screen Resolution:* ${screenResolution}
@@ -84,25 +62,6 @@ ${message}
 *Current Page URL:* ${currentPageURL}
 *Time Zone:* ${timeZone}
 *Browser Language:* ${browserLanguage}
-*Platform:* ${platform}
-*Languages:* ${languages}
-*Device Memory:* ${deviceMemory} GB
-*CPU Cores:* ${hardwareConcurrency}
-*Color Depth:* ${colorDepth}
-*Pixel Depth:* ${pixelDepth}
-*Cookies Enabled:* ${cookieEnabled}
-*Java Enabled:* ${javaEnabled}
-*Online:* ${onlineStatus}
-*Screen Orientation:* ${screenOrientation}
-*Battery Level:* ${batteryLevel}
-*LocalStorage Supported:* ${localStorageSupport}
-*SessionStorage Supported:* ${sessionStorageSupport}
-*IndexedDB Supported:* ${indexedDbSupport}
-*Plugins:* ${plugins}
-*Canvas Fingerprint:* ${canvasFingerprint}
-*WebGL Fingerprint:* ${webglFingerprint}
-*Timezone Offset:* ${timezoneOffset}
-*Performance Timing:* ${JSON.stringify(performanceTiming)}
 
 *--- Technical Details (HTTP Headers) ---*
 *IP Address:* ${userIp}
@@ -126,9 +85,9 @@ ${message}
 *Fetch Site:* ${secFetchSite}
 *Fetch Mode:* ${secFetchMode}
 *Fetch Destination:* ${secFetchDest}
-`.trim();
+.trim();
 
-    const telegramApiUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+    const telegramApiUrl = https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage;
 
     try {
         const telegramResponse = await fetch(telegramApiUrl, {
@@ -139,7 +98,7 @@ ${message}
             body: JSON.stringify({
                 chat_id: TELEGRAM_CHAT_ID,
                 text: text,
-                parse_mode: 'Markdown'
+                parse_mode: 'Markdown', 
             }),
         });
 
