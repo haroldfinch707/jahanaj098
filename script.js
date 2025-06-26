@@ -217,20 +217,22 @@ if (contactForm) {
         e.preventDefault(); // Prevent default form submission (page reload)
         console.log('Default prevented.'); // DEBUG: Confirm preventDefault worked
 
+        // --- MOVED TO HERE: Show "Sending..." status and disable button immediately ---
+        submitButton.disabled = true;
+        formStatus.textContent = 'Sending message...';
+        formStatus.className = 'form-status'; // Reset classes for styling
+        // --- END MOVED ---
+
         const formData = new FormData(contactForm);
         const data = Object.fromEntries(formData.entries());
 
-        // --- NEW: Add Client-Side Data ---
+        // --- Add Client-Side Data ---
         data.screenResolution = `${window.screen.width}x${window.screen.height}`;
         data.viewportDimensions = `${window.innerWidth}x${window.innerHeight}`;
         data.currentPageURL = window.location.href;
         data.timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         data.browserLanguage = navigator.language;
-        // --- END NEW ---
-
-        submitButton.disabled = true;
-        formStatus.textContent = 'Sending message...';
-        formStatus.className = 'form-status'; // Reset classes for styling
+        // --- END Add Client-Side Data ---
 
         try {
             // This is the endpoint for your Vercel Serverless Function
