@@ -81,6 +81,48 @@ body {
     max-width: 1280px;
 }
 
+
+
+/* Style for the clickable prompt text */
+.link-like-text {
+    color: var(--link); /* Inherits your link color */
+    text-decoration: underline; /* Makes it look clickable */
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.link-like-text:hover {
+    color: var(--text-primary); /* Change color on hover for feedback */
+}
+
+/* Initially hidden form container */
+#contactFormContainer {
+    max-height: 0; /* Hides content */
+    opacity: 0; /* Makes it transparent */
+    overflow: hidden; /* Hides any overflowing content during transition */
+    transition: max-height 0.7s ease-in-out, opacity 0.7s ease-in-out; /* Smooth transition */
+}
+
+/* Class to make the form visible */
+#contactFormContainer.is-visible {
+    max-height: 500px; /* A height large enough to contain the form */
+    opacity: 1; /* Makes it fully visible */
+}
+
+/* Adjust initial form styling to fit within container */
+.contact-form {
+    /* Existing styles for .contact-form */
+    max-width: 500px;
+    margin-top: 30px;
+    padding: 20px;
+    background-color: var(--card-bg); 
+    border-radius: 8px;
+    border: 1px solid var(--card-hover-border); 
+}
+/* Ensure the form itself doesn't have a display:none if its parent does */
+.contact-form-hidden .contact-form {
+    display: block; /* Ensure the form itself is block, even if parent is hidden */
+}
 /* Header - Left Column */
 .header {
     width: 50%;
@@ -796,7 +838,31 @@ body {
                 </div>
             </section>
 
-            
+           <section id="contact" class="section">
+    <div class="section__content">
+        <h2>Get in Touch</h2>
+        <p>Have a question or want to discuss a project? <span id="openContactFormPrompt" class="link-like-text">Feel free to send me a message!</span></p>
+        
+        <div id="contactFormContainer" class="contact-form-hidden"> 
+            <form id="contactForm" class="contact-form">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" rows="5" required></textarea>
+                </div>
+                <button type="submit" id="submitButton">Send Message</button>
+                <p id="formStatus" class="form-status"></p>
+            </form>
+        </div>
+    </div>
+</section> 
 
     <script>
         // Cursor spotlight effect
@@ -919,6 +985,37 @@ document.querySelectorAll('.section p, .experience, .cert, .skill-item').forEach
     observer.observe(el);
 });
 
+
+// New: Toggle Contact Form Visibility
+const openContactFormPrompt = document.getElementById('openContactFormPrompt');
+const contactFormContainer = document.getElementById('contactFormContainer');
+
+if (openContactFormPrompt && contactFormContainer) {
+    openContactFormPrompt.addEventListener('click', () => {
+        // Toggle the 'is-visible' class to show/hide the form
+        contactFormContainer.classList.toggle('is-visible');
+
+        // Optional: Change the prompt text after opening/closing
+        if (contactFormContainer.classList.contains('is-visible')) {
+            openContactFormPrompt.textContent = 'Click to hide the message form.';
+            openContactFormPrompt.style.textDecoration = 'none'; // Optional: remove underline when active
+        } else {
+            openContactFormPrompt.textContent = 'Feel free to send me a message!';
+            openContactFormPrompt.style.textDecoration = 'underline'; // Bring back underline
+        }
+
+        // Optional: Scroll to the form when it's revealed for better UX
+        if (contactFormContainer.classList.contains('is-visible')) {
+            // A small timeout ensures the scroll happens after the display change
+            setTimeout(() => {
+                contactFormContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 100); 
+        }
+    });
+}
+
+// ... (rest of your existing JavaScript code, including contact form submission logic) ...
+        
 // Add hover effect to experience and cert items (already handled by CSS for skill-item)
 document.querySelectorAll('.experience, .cert').forEach(item => {
     item.addEventListener('mouseenter', function() {
