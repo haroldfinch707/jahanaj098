@@ -913,7 +913,7 @@ body {
 </section>
 
     <script>
-       // =========================================================
+// =========================================================
 // Global DOM Selectors and Variables
 // =========================================================
 const cursorSpotlight = document.querySelector('.cursor-spotlight');
@@ -921,11 +921,10 @@ const sections = document.querySelectorAll('.section');
 const navLinks = document.querySelectorAll('.nav__link');
 
 // For Contact Form
-const contactForm = document.getElementById('contactForm');
-const formStatus = document.getElementById('formStatus');
-const submitButton = document.getElementById('submitButton');
-const openContactFormPrompt = document.getElementById('openContactFormPrompt');
-const contactFormContainer = document.getElementById('contactFormContainer');
+const contactForm = document.getElementById('contactForm'); // This is kept
+const formStatus = document.getElementById('formStatus');   // This is kept
+const submitButton = document.getElementById('submitButton'); // This is kept
+// Removed: openContactFormPrompt and contactFormContainer as they are no longer needed
 
 // For "Hacking Thing" trigger
 const securityControlsTrigger = document.getElementById('securityControlsTrigger');
@@ -1014,6 +1013,8 @@ navLinks.forEach(link => {
                 top: offsetPosition,
                 behavior: "smooth"
             });
+
+            // Removed: Logic to programmatically click openContactFormPrompt, as form is always visible now
         }
     });
 });
@@ -1118,31 +1119,8 @@ if (securityControlsTrigger) {
 }
 
 // =========================================================
-// 9. Toggle Contact Form Visibility
+// Removed Section 9: Toggle Contact Form Visibility (No longer needed)
 // =========================================================
-if (openContactFormPrompt && contactFormContainer) {
-    openContactFormPrompt.addEventListener('click', () => {
-        // Toggle the 'is-visible' class to show/hide the form
-        contactFormContainer.classList.toggle('is-visible');
-
-        // Optional: Change the prompt text after opening/closing
-        if (contactFormContainer.classList.contains('is-visible')) {
-            openContactFormPrompt.textContent = 'Click to hide the message form.';
-            openContactFormPrompt.style.textDecoration = 'none'; // Optional: remove underline when active
-        } else {
-            openContactFormPrompt.textContent = 'Feel free to send me a message!';
-            openContactFormPrompt.style.textDecoration = 'underline'; // Bring back underline
-        }
-
-        // Optional: Scroll to the form when it's revealed for better UX
-        if (contactFormContainer.classList.contains('is-visible')) {
-            // A small timeout ensures the scroll happens after the display change
-            setTimeout(() => {
-                contactFormContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }, 100); 
-        }
-    });
-}
 
 // =========================================================
 // 10. Handle Contact Form Submission
