@@ -83,46 +83,86 @@ body {
 
 
 
-/* Style for the clickable prompt text */
-.link-like-text {
-    color: var(--link); /* Inherits your link color */
-    text-decoration: underline; /* Makes it look clickable */
-    cursor: pointer;
-    transition: color 0.2s ease;
-}
-
-.link-like-text:hover {
-    color: var(--text-primary); /* Change color on hover for feedback */
-}
-
-/* Initially hidden form container */
-#contactFormContainer {
-    max-height: 0; /* Hides content */
-    opacity: 0; /* Makes it transparent */
-    overflow: hidden; /* Hides any overflowing content during transition */
-    transition: max-height 0.7s ease-in-out, opacity 0.7s ease-in-out; /* Smooth transition */
-}
-
-/* Class to make the form visible */
-#contactFormContainer.is-visible {
-    max-height: 500px; /* A height large enough to contain the form */
-    opacity: 1; /* Makes it fully visible */
-}
-
-/* Adjust initial form styling to fit within container */
+/* Contact Form Styling */
 .contact-form {
-    /* Existing styles for .contact-form */
     max-width: 500px;
     margin-top: 30px;
     padding: 20px;
-    background-color: var(--card-bg); 
+    background-color: var(--card-bg); /* Use your card background for consistency */
     border-radius: 8px;
-    border: 1px solid var(--card-hover-border); 
+    border: 1px solid var(--card-hover-border); /* Subtle border */
 }
-/* Ensure the form itself doesn't have a display:none if its parent does */
-.contact-form-hidden .contact-form {
-    display: block; /* Ensure the form itself is block, even if parent is hidden */
+
+.contact-form .form-group {
+    margin-bottom: 20px;
 }
+
+.contact-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea {
+    width: 100%;
+    padding: 10px;
+    background-color: rgba(30, 41, 59, 0.5); /* Slightly darker transparent */
+    border: 1px solid var(--nav-line);
+    border-radius: 4px;
+    color: var(--text-primary);
+    font-size: 16px;
+    box-sizing: border-box; /* Include padding in width */
+}
+
+.contact-form input[type="text"]:focus,
+.contact-form input[type="email"]:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: var(--link);
+    box-shadow: 0 0 0 1px var(--link);
+}
+
+.contact-form button {
+    background-color: var(--link);
+    color: var(--bg); /* Dark text on light button */
+    padding: 12px 25px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.contact-form button:hover {
+    background-color: #4cd4bd; /* Slightly darker link color on hover */
+    transform: translateY(-2px);
+}
+
+.contact-form .form-status {
+    margin-top: 15px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.form-status.success {
+    color: var(--link); /* Greenish color */
+}
+
+.form-status.error {
+    color: #ef4444; /* Red color */
+}
+
+
+
+
+
+
+
+        
 /* Header - Left Column */
 .header {
     width: 50%;
@@ -838,31 +878,28 @@ body {
                 </div>
             </section>
 
-           <section id="contact" class="section">
+    <section id="contact" class="section">
     <div class="section__content">
         <h2>Get in Touch</h2>
-        <p>Have a question or want to discuss a project? <span id="openContactFormPrompt" class="link-like-text">Feel free to send me a message!</span></p>
-        
-        <div id="contactFormContainer" class="contact-form-hidden"> 
-            <form id="contactForm" class="contact-form">
-                <div class="form-group">
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="message">Message:</label>
-                    <textarea id="message" name="message" rows="5" required></textarea>
-                </div>
-                <button type="submit" id="submitButton">Send Message</button>
-                <p id="formStatus" class="form-status"></p>
-            </form>
-        </div>
+        <p>Have a question or want to discuss a project? Feel free to send me a message!</p>
+        <form id="contactForm" class="contact-form">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+            </div>
+            <button type="submit" id="submitButton">Send Message</button>
+            <p id="formStatus" class="form-status"></p>
+        </form>
     </div>
-</section> 
+</section>
 
     <script>
         // Cursor spotlight effect
@@ -984,38 +1021,7 @@ document.querySelectorAll('.section p, .experience, .cert, .skill-item').forEach
     el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
     observer.observe(el);
 });
-
-
-// New: Toggle Contact Form Visibility
-const openContactFormPrompt = document.getElementById('openContactFormPrompt');
-const contactFormContainer = document.getElementById('contactFormContainer');
-
-if (openContactFormPrompt && contactFormContainer) {
-    openContactFormPrompt.addEventListener('click', () => {
-        // Toggle the 'is-visible' class to show/hide the form
-        contactFormContainer.classList.toggle('is-visible');
-
-        // Optional: Change the prompt text after opening/closing
-        if (contactFormContainer.classList.contains('is-visible')) {
-            openContactFormPrompt.textContent = 'Click to hide the message form.';
-            openContactFormPrompt.style.textDecoration = 'none'; // Optional: remove underline when active
-        } else {
-            openContactFormPrompt.textContent = 'Feel free to send me a message!';
-            openContactFormPrompt.style.textDecoration = 'underline'; // Bring back underline
-        }
-
-        // Optional: Scroll to the form when it's revealed for better UX
-        if (contactFormContainer.classList.contains('is-visible')) {
-            // A small timeout ensures the scroll happens after the display change
-            setTimeout(() => {
-                contactFormContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }, 100); 
-        }
-    });
-}
-
-// ... (rest of your existing JavaScript code, including contact form submission logic) ...
-        
+                
 // Add hover effect to experience and cert items (already handled by CSS for skill-item)
 document.querySelectorAll('.experience, .cert').forEach(item => {
     item.addEventListener('mouseenter', function() {
@@ -1032,6 +1038,53 @@ if (window.matchMedia('(max-width: 1024px)').matches) {
     }
 }
 
+
+        // Handle Contact Form Submission
+const contactForm = document.getElementById('contactForm');
+const formStatus = document.getElementById('formStatus');
+const submitButton = document.getElementById('submitButton');
+
+if (contactForm) {
+    contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault(); // Prevent default form submission
+
+        submitButton.disabled = true;
+        formStatus.textContent = 'Sending message...';
+        formStatus.className = 'form-status'; // Reset classes
+
+        const formData = new FormData(contactForm);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+            // This is the endpoint for your Vercel Serverless Function
+            const response = await fetch('/api/send-telegram-message', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (response.ok) {
+                formStatus.textContent = 'Message sent successfully!';
+                formStatus.classList.add('success');
+                contactForm.reset(); // Clear the form
+            } else {
+                const errorData = await response.json();
+                formStatus.textContent = `Failed to send message: ${errorData.message || 'Unknown error'}`;
+                formStatus.classList.add('error');
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            formStatus.textContent = 'An error occurred. Please try again later.';
+            formStatus.classList.add('error');
+        } finally {
+            submitButton.disabled = false;
+        }
+    });
+}
+
+        
 // Check for reduced motion preference
 if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     if (cursorSpotlight) {
