@@ -19,6 +19,16 @@
     --nav-line-active: #5eead4;
 }
 
+
+.section h2 {
+    font-size: 32px; /* Example size, adjust as needed */
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 40px; /* NEW: Add space below the heading */
+    line-height: 1.2;
+}
+
+
 p {
       margin-bottom: 20px; /* adds space below each paragraph */
     }
