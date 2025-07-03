@@ -19,22 +19,7 @@
     --nav-line-active: #5eead4;
 }
 
-.resume-button {
-  display: inline-block;
-  margin-top: 20px;
-  padding: 10px 20px;
-  border: 1px solid #38bdf8; /* Same blue as your links */
-  border-radius: 8px;
-  color: #38bdf8;
-  text-decoration: none;
-  font-weight: 500;
-  transition: background-color 0.3s, color 0.3s;
-}
 
-.resume-button:hover {
-  background-color: #38bdf8;
-  color: #111827; /* Dark background color */
-}
 
 .section h2 {
     font-size: 32px; /* Example size, adjust as needed */
