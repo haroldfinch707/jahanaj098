@@ -1,4 +1,4 @@
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 * {
     margin: 0;
@@ -8,8 +8,8 @@
 
 :root {
     --bg: #0f172a;
-    --card-bg: rgba(30, 41, 59, 0.1); /* DECREASED OPACITY: Now 20% */
-    --card-hover-bg: rgba(42, 56, 79, 0.3); /* DECREASED OPACITY: Now 30% on hover */
+    --card-bg: rgba(30, 41, 59, 0.1);
+    --card-hover-bg: rgba(42, 56, 79, 0.3);
     --card-hover-border: #475569;
     --text-primary: #e2e8f0;
     --text-secondary: #94a3b8;
@@ -19,20 +19,17 @@
     --nav-line-active: #5eead4;
 }
 
-
-
 .section h2 {
-    font-size: 32px; /* Example size, adjust as needed */
+    font-size: 32px;
     font-weight: 700;
     color: var(--text-primary);
-    margin-bottom: 40px; /* NEW: Add space below the heading */
+    margin-bottom: 40px;
     line-height: 1.2;
 }
 
-
 p {
-      margin-bottom: 20px; /* adds space below each paragraph */
-    }
+    margin-bottom: 20px;
+}
 
 html {
     scrollbar-width: thin;
@@ -63,7 +60,6 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* Cursor spotlight effect */
 .cursor-spotlight {
     position: fixed;
     width: 800px;
@@ -84,30 +80,21 @@ body {
     max-width: 1280px;
 }
 
-
-
-    text-align: center;
-}
-
 .form-status.success {
-    color: var(--link); /* Greenish color */
+    color: var(--link);
 }
 
 .form-status.error {
-    color: #ef4444; /* Red color */
+    color: #ef4444;
 }
 
-
-
-
-/* Contact Form Styling */
 .contact-form {
     max-width: 500px;
     margin-top: 30px;
     padding: 20px;
-    background-color: var(--card-bg); /* Use your card background for consistency */
+    background-color: var(--card-bg);
     border-radius: 8px;
-    border: 1px solid var(--card-hover-border); /* Subtle border */
+    border: 1px solid var(--card-hover-border);
 }
 
 .contact-form .form-group {
@@ -119,8 +106,8 @@ body {
     margin-bottom: 8px;
     font-weight: 500;
     color: var(--text-primary);
-    position: relative; /* ADDED: Give label a stacking context */
-    z-index: 2; /* ADDED: Ensure label is above potential overlays */
+    position: relative;
+    z-index: 2;
 }
 
 .contact-form input[type="text"],
@@ -128,14 +115,14 @@ body {
 .contact-form textarea {
     width: 100%;
     padding: 10px;
-    background-color: rgba(30, 41, 59, 0.5); /* Slightly darker transparent */
+    background-color: rgba(30, 41, 59, 0.5);
     border: 1px solid var(--nav-line);
     border-radius: 4px;
     color: var(--text-primary);
     font-size: 16px;
-    box-sizing: border-box; /* Include padding in width */
-    position: relative; /* ADDED: Give input/textarea a stacking context */
-    z-index: 2; /* ADDED: Ensure input/textarea are above potential overlays */
+    box-sizing: border-box;
+    position: relative;
+    z-index: 2;
 }
 
 .contact-form input[type="text"]:focus,
@@ -148,7 +135,7 @@ body {
 
 .contact-form button {
     background-color: var(--link);
-    color: var(--bg); /* Dark text on light button */
+    color: var(--bg);
     padding: 12px 25px;
     border: none;
     border-radius: 4px;
@@ -156,12 +143,12 @@ body {
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    position: relative; /* ADDED: Give button a stacking context */
-    z-index: 2; /* ADDED: Ensure button is above potential overlays */
+    position: relative;
+    z-index: 2;
 }
 
 .contact-form button:hover {
-    background-color: #4cd4bd; /* Slightly darker link color on hover */
+    background-color: #4cd4bd;
     transform: translateY(-2px);
 }
 
@@ -172,16 +159,13 @@ body {
 }
 
 .form-status.success {
-    color: var(--link); /* Greenish color */
+    color: var(--link);
 }
 
 .form-status.error {
-    color: #ef4444; /* Red color */
+    color: #ef4444;
 }
 
-
-        
-/* Header - Left Column */
 .header {
     width: 50%;
     padding: 96px 96px 96px 80px;
@@ -216,7 +200,6 @@ body {
     line-height: 1.5;
 }
 
-/* Navigation */
 .nav {
     margin-top: 72px;
 }
@@ -268,7 +251,6 @@ body {
     background-color: var(--nav-line-active);
 }
 
-/* Social Links */
 .social {
     list-style: none;
     display: flex;
@@ -293,7 +275,6 @@ body {
     height: 20px;
 }
 
-/* Main Content - Right Column */
 .main {
     width: 50%;
     margin-left: 50%;
@@ -304,13 +285,12 @@ body {
     margin-bottom: 144px;
 }
 
-/* About Section adjustments */
 .section#about .section__content {
-    max-width: 700px; /* Increased length/width */
+    max-width: 700px;
 }
 
 .section#about .section__content p {
-    font-size: 15px; /* Slightly decreased font size */
+    font-size: 15px;
     line-height: 1.625;
     color: var(--text-secondary);
 }
@@ -345,7 +325,6 @@ body {
     color: var(--link);
 }
 
-/* Experience List & Certifications List */
 .experience-list,
 .cert-list {
     list-style: none;
@@ -431,7 +410,6 @@ body {
     font-weight: 500;
 }
 
-/* Skills Section - Project Card Styling */
 .skills-list {
     list-style: none;
     display: grid;
@@ -442,7 +420,7 @@ body {
 .skill-item {
     display: flex;
     flex-direction: column;
-    background-color: var(--card-bg); /* Now very transparent */
+    background-color: var(--card-bg);
     padding: 24px;
     border-radius: 8px;
     border: 1px solid transparent;
@@ -451,16 +429,13 @@ body {
 }
 
 .skill-item:hover {
-    background-color: var(--card-hover-bg); /* Slightly more opaque on hover */
+    background-color: var(--card-hover-bg);
     border-color: var(--card-hover-border);
     transform: translateY(-5px);
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
-/* Since icons are removed, this rule will have less impact,
-   but keeping it in case you add other elements */
 .skill-item__icon {
-    /* These styles are less relevant if the div is empty, but kept for structural consistency */
     font-size: 48px;
     margin-bottom: 16px;
     line-height: 1;
@@ -480,7 +455,6 @@ body {
     margin: 0;
 }
 
-/* Footer */
 .footer {
     margin-top: 96px;
 }
@@ -491,12 +465,10 @@ body {
     line-height: 1.625;
 }
 
-/* Remove focus outline for all elements */
 *:focus {
     outline: none;
 }
 
-/* Responsive */
 @media (max-width: 1024px) {
     .cursor-spotlight {
         display: none;
@@ -531,13 +503,12 @@ body {
         margin-bottom: 96px;
     }
 
-    /* Responsive for About Section */
     .section#about .section__content {
-        max-width: 100%; /* Allow full width on smaller screens */
+        max-width: 100%;
     }
 
     .section#about .section__content p {
-        font-size: 16px; /* Adjust font size for smaller screens */
+        font-size: 16px;
     }
 }
 
@@ -579,19 +550,16 @@ body {
         font-size: 12px;
     }
     
-    /* Responsive for Skills Section */
     .skills-list {
-        grid-template-columns: 1fr; /* Stack cards on very small screens */
+        grid-template-columns: 1fr;
         gap: 16px;
     }
 
     .skill-item__icon {
-        /* Still useful if you decide to add content back, otherwise effectively hidden */
-        display: none; /* Hide icon div on very small screens since it's empty */
+        display: none;
     }
 }
 
-/* Animations */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -607,13 +575,11 @@ body {
     animation: fadeIn 0.6s ease-out;
 }
 
-/* Selection */
 ::selection {
     background-color: rgba(94, 234, 212, 0.3);
     color: var(--text-primary);
 }
 
-/* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
     * {
         animation-duration: 0.01ms !important;
