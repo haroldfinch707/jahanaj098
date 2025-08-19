@@ -1,11 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-
 :root {
     --bg: #0f172a;
     --card-bg: rgba(30, 41, 59, 0.1);
@@ -18,7 +16,6 @@
     --nav-line: #1e293b;
     --nav-line-active: #5eead4;
 }
-
 .section h2 {
     font-size: 32px;
     font-weight: 700;
@@ -26,30 +23,24 @@
     margin-bottom: 40px;
     line-height: 1.2;
 }
-
 p {
     margin-bottom: 20px;
 }
-
 html {
     scrollbar-width: thin;
     scrollbar-color: #475569 #0f172a;
 }
-
 ::-webkit-scrollbar {
     width: 12px;
 }
-
 ::-webkit-scrollbar-track {
     background: #0f172a;
 }
-
 ::-webkit-scrollbar-thumb {
     background-color: #475569;
     border-radius: 6px;
     border: 3px solid #0f172a;
 }
-
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     background-color: var(--bg);
@@ -59,7 +50,6 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-
 .cursor-spotlight {
     position: fixed;
     width: 800px;
@@ -72,22 +62,18 @@ body {
     opacity: 1;
     transition: opacity 0.3s ease;
 }
-
 .layout {
     display: flex;
     min-height: 100vh;
     margin: 0 auto;
     max-width: 1280px;
 }
-
 .form-status.success {
     color: var(--link);
 }
-
 .form-status.error {
     color: #ef4444;
 }
-
 .contact-form {
     max-width: 500px;
     margin-top: 30px;
@@ -96,11 +82,9 @@ body {
     border-radius: 8px;
     border: 1px solid var(--card-hover-border);
 }
-
 .contact-form .form-group {
     margin-bottom: 20px;
 }
-
 .contact-form label {
     display: block;
     margin-bottom: 8px;
@@ -109,7 +93,6 @@ body {
     position: relative;
     z-index: 2;
 }
-
 .contact-form input[type="text"],
 .contact-form input[type="email"],
 .contact-form textarea {
@@ -124,7 +107,6 @@ body {
     position: relative;
     z-index: 2;
 }
-
 .contact-form input[type="text"]:focus,
 .contact-form input[type="email"]:focus,
 .contact-form textarea:focus {
@@ -132,7 +114,6 @@ body {
     border-color: var(--link);
     box-shadow: 0 0 0 1px var(--link);
 }
-
 .contact-form button {
     background-color: var(--link);
     color: var(--bg);
@@ -146,24 +127,72 @@ body {
     position: relative;
     z-index: 2;
 }
-
 .contact-form button:hover {
     background-color: #4cd4bd;
     transform: translateY(-2px);
 }
-
 .contact-form .form-status {
     margin-top: 15px;
     font-size: 14px;
     text-align: center;
 }
-
 .form-status.success {
     color: var(--link);
 }
-
 .form-status.error {
     color: #ef4444;
+}
+
+/* Resume Section Styles */
+.resume-container {
+    margin-top: 30px;
+}
+
+.resume-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease;
+}
+
+.resume-link:hover {
+    transform: translateY(-2px);
+}
+
+.resume-preview {
+    background-color: var(--card-bg);
+    padding: 32px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+    text-align: center;
+    max-width: 300px;
+}
+
+.resume-preview:hover {
+    background-color: var(--card-hover-bg);
+    border-color: var(--card-hover-border);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.resume-preview svg {
+    width: 48px;
+    height: 48px;
+    color: var(--link);
+    margin-bottom: 16px;
+}
+
+.resume-preview h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.resume-preview p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin: 0;
 }
 
 .header {
@@ -175,7 +204,6 @@ body {
     flex-direction: column;
     justify-content: space-between;
 }
-
 .header__name {
     font-size: 48px;
     font-weight: 700;
@@ -183,7 +211,6 @@ body {
     letter-spacing: -0.025em;
     line-height: 1;
 }
-
 .header__title {
     font-size: 20px;
     font-weight: 500;
@@ -191,7 +218,6 @@ body {
     margin-top: 12px;
     line-height: 1.2;
 }
-
 .header__tagline {
     font-size: 16px;
     color: var(--text-secondary);
@@ -199,19 +225,15 @@ body {
     max-width: 340px;
     line-height: 1.5;
 }
-
 .nav {
     margin-top: 72px;
 }
-
 .nav__list {
     list-style: none;
 }
-
 .nav__item {
     margin-bottom: 12px;
 }
-
 .nav__link {
     display: flex;
     align-items: center;
@@ -224,15 +246,12 @@ body {
     transition: color 0.2s ease;
     outline: none;
 }
-
 .nav__link:hover {
     color: var(--text-primary);
 }
-
 .nav__link--active {
     color: var(--text-primary);
 }
-
 .nav__line {
     width: 32px;
     height: 1px;
@@ -240,17 +259,14 @@ body {
     margin-right: 16px;
     transition: all 0.2s ease;
 }
-
 .nav__link:hover .nav__line {
     width: 64px;
     background-color: var(--text-primary);
 }
-
 .nav__link--active .nav__line {
     width: 64px;
     background-color: var(--nav-line-active);
 }
-
 .social {
     list-style: none;
     display: flex;
@@ -258,50 +274,41 @@ body {
     gap: 16px;
     margin-top: auto;
 }
-
 .social__link {
     display: block;
     color: var(--text-tertiary);
     transition: color 0.2s ease, transform 0.2s ease;
 }
-
 .social__link:hover {
     color: var(--text-primary);
     transform: translateY(-3px);
 }
-
 .social__link svg {
     width: 20px;
     height: 20px;
 }
-
 .main {
     width: 50%;
     margin-left: 50%;
     padding: 96px 80px 96px 0;
 }
-
 .section {
     margin-bottom: 144px;
 }
-
 .section#about .section__content {
     max-width: 700px;
 }
-
 .section#about .section__content p {
     font-size: 15px;
     line-height: 1.625;
     color: var(--text-secondary);
 }
-
 .link {
     color: var(--text-primary);
     text-decoration: none;
     transition: color 0.2s ease;
     position: relative;
 }
-
 .link::after {
     content: '';
     position: absolute;
@@ -312,24 +319,19 @@ body {
     background-color: var(--link);
     transition: width 0.3s ease;
 }
-
 .link:hover {
     color: var(--link);
 }
-
 .link:hover::after {
     width: 100%;
 }
-
 .highlight {
     color: var(--link);
 }
-
 .experience-list,
 .cert-list {
     list-style: none;
 }
-
 .experience,
 .cert {
     display: grid;
@@ -337,7 +339,6 @@ body {
     gap: 16px;
     margin-bottom: 48px;
 }
-
 .experience__time,
 .cert__time {
     font-size: 12px;
@@ -347,7 +348,6 @@ body {
     color: var(--text-tertiary);
     padding-top: 1px;
 }
-
 .experience__title,
 .cert__title {
     font-size: 16px;
@@ -355,12 +355,10 @@ body {
     color: var(--text-primary);
     margin-bottom: 8px;
 }
-
 .experience__title span,
 .cert__title span {
     position: relative;
 }
-
 .experience__link,
 .cert__link {
     display: inline-flex;
@@ -369,12 +367,10 @@ body {
     color: inherit;
     transition: color 0.2s ease;
 }
-
 .experience__link:hover,
 .cert__link:hover {
     color: var(--link);
 }
-
 .experience__link svg,
 .cert__link svg {
     width: 16px;
@@ -382,25 +378,21 @@ body {
     margin-left: 4px;
     transition: transform 0.2s ease;
 }
-
 .experience__link:hover svg,
 .cert__link:hover svg {
     transform: translate(4px, -4px);
 }
-
 .experience__description {
     font-size: 14px;
     line-height: 1.625;
     margin-bottom: 16px;
 }
-
 .experience__tags {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
     list-style: none;
 }
-
 .tag {
     background-color: rgba(94, 234, 212, 0.1);
     color: var(--link);
@@ -409,14 +401,12 @@ body {
     font-size: 12px;
     font-weight: 500;
 }
-
 .skills-list {
     list-style: none;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 24px;
 }
-
 .skill-item {
     display: flex;
     flex-direction: column;
@@ -427,48 +417,40 @@ body {
     transition: all 0.3s ease;
     cursor: default;
 }
-
 .skill-item:hover {
     background-color: var(--card-hover-bg);
     border-color: var(--card-hover-border);
     transform: translateY(-5px);
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
-
 .skill-item__icon {
     font-size: 48px;
     margin-bottom: 16px;
     line-height: 1;
 }
-
 .skill-item__content h3 {
     font-size: 20px;
     font-weight: 600;
     color: var(--text-primary);
     margin-bottom: 8px;
 }
-
 .skill-item__content p {
     font-size: 15px;
     line-height: 1.6;
     color: var(--text-secondary);
     margin: 0;
 }
-
 .footer {
     margin-top: 96px;
 }
-
 .footer p {
     font-size: 14px;
     color: var(--text-tertiary);
     line-height: 1.625;
 }
-
 *:focus {
     outline: none;
 }
-
 @media (max-width: 1024px) {
     .cursor-spotlight {
         display: none;
@@ -477,74 +459,62 @@ body {
     .layout {
         display: block;
     }
-
     .header {
         position: relative;
         width: 100%;
         height: auto;
         padding: 64px 48px;
     }
-
     .nav {
         margin-top: 48px;
     }
-
     .social {
         margin-top: 48px;
     }
-
     .main {
         width: 100%;
         margin-left: 0;
         padding: 0 48px 64px;
     }
-
     .section {
         margin-bottom: 96px;
     }
-
     .section#about .section__content {
         max-width: 100%;
     }
-
     .section#about .section__content p {
         font-size: 16px;
     }
+    .resume-preview {
+        max-width: 100%;
+    }
 }
-
 @media (max-width: 640px) {
     .header {
         padding: 48px 24px;
     }
-
     .header__name {
         font-size: 36px;
     }
-
     .header__title {
         font-size: 18px;
     }
-
     .nav__list {
         display: flex;
         gap: 24px;
         flex-wrap: wrap;
     }
-
     .nav__line {
         display: none;
     }
-
     .main {
         padding: 0 24px 48px;
     }
-
     .experience,
     .cert {
         grid-template-columns: 1fr;
         gap: 8px;
     }
-
     .experience__time,
     .cert__time {
         font-size: 12px;
@@ -554,12 +524,14 @@ body {
         grid-template-columns: 1fr;
         gap: 16px;
     }
-
     .skill-item__icon {
         display: none;
     }
+    .resume-preview {
+        max-width: 100%;
+        padding: 24px;
+    }
 }
-
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -570,16 +542,13 @@ body {
         transform: translateY(0);
     }
 }
-
 .section {
     animation: fadeIn 0.6s ease-out;
 }
-
 ::selection {
     background-color: rgba(94, 234, 212, 0.3);
     color: var(--text-primary);
 }
-
 @media (prefers-reduced-motion: reduce) {
     * {
         animation-duration: 0.01ms !important;
