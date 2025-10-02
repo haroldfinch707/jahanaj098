@@ -382,8 +382,8 @@ function validateFormData(data) {
     }
     
     // Message validation
-    if (!data.message || data.message.trim().length < 10) {
-        errors.push('Message must be at least 10 characters long');
+    if (!data.message || data.message.trim().length < 3) {
+        errors.push('Message must be at least 3 characters long');
     }
     
     if (errors.length > 0) {
